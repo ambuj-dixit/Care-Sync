@@ -1,0 +1,91 @@
+{
+  "app": {
+    "name": "केयर सिंक",
+    "tagline": "आपका स्वास्थ्य, हमारी प्राथमिकता"
+  },
+  "navigation": {
+    "dashboard": "डैशबोर्ड",
+    "appointments": "अपॉइंटमेंट",
+    "doctors": "डॉक्टर",
+    "pharmacy": "फार्मेसी",
+    "health_records": "स्वास्थ्य रिकॉर्ड",
+    "profile": "प्रोफाइल",
+    "settings": "सेटिंग्स",
+    "logout": "लॉग आउट"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "register": "रजिस्टर",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "phone": "फोन नंबर",
+    "forgot_password": "पासवर्ड भूल गए?",
+    "dont_have_account": "खाता नहीं है?",
+    "already_have_account": "पहले से खाता है?",
+    "sign_in": "साइन इन करें",
+    "sign_up": "साइन अप करें",
+    "verify_otp": "OTP सत्यापित करें",
+    "enter_otp": "अपने फोन पर भेजा गया OTP दर्ज करें",
+    "resend_otp": "OTP पुनः भेजें"
+  },
+  "dashboard": {
+    "welcome": "वापसी पर स्वागत",
+    "upcoming_appointments": "आगामी अपॉइंटमेंट",
+    "recent_consultations": "हाल की परामर्श",
+    "health_summary": "स्वास्थ्य सारांश",
+    "quick_actions": "त्वरित कार्य",
+    "book_appointment": "अपॉइंटमेंट बुक करें",
+    "view_records": "रिकॉर्ड देखें",
+    "find_pharmacy": "फार्मेसी खोजें"
+  },
+  "appointments": {
+    "book_new": "नई अपॉइंटमेंट बुक करें",
+    "select_doctor": "डॉक्टर चुनें",
+    "select_date": "दिनांक चुनें",
+    "select_time": "समय चुनें",
+    "consultation_type": "परामर्श प्रकार",
+    "video_call": "वीडियो कॉल",
+    "audio_call": "ऑडियो कॉल",
+    "symptoms": "लक्षण",
+    "describe_symptoms": "अपने लक्षणों का वर्णन करें",
+    "confirm_booking": "बुकिंग की पुष्टि करें",
+    "appointment_booked": "अपॉइंटमेंट सफलतापूर्वक बुक हो गई"
+  },
+  "doctors": {
+    "find_doctor": "डॉक्टर खोजें",
+    "specialization": "विशेषज्ञता",
+    "experience": "अनुभव",
+    "rating": "रेटिंग",
+    "consultation_fee": "परामर्श शुल्क",
+    "available_now": "अभी उपलब्ध",
+    "book_appointment": "अपॉइंटमेंट बुक करें",
+    "view_profile": "प्रोफाइल देखें"
+  },
+  "pharmacy": {
+    "search_medicine": "दवा खोजें",
+    "medicine_name": "दवा का नाम",
+    "category": "श्रेणी",
+    "price": "कीमत",
+    "in_stock": "स्टॉक में",
+    "out_of_stock": "स्टॉक खत्म",
+    "prescription_required": "प्रिस्क्रिप्शन आवश्यक",
+    "add_to_cart": "कार्ट में जोड़ें",
+    "check_availability": "उपलब्धता जांचें"
+  },
+  "common": {
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "submit": "जमा करें",
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफलता",
+    "confirm": "पुष्टि करें",
+    "search": "खोजें",
+    "filter": "फिल्टर",
+    "clear": "साफ करें",
+    "edit": "संपादित करें",
+    "delete": "हटाएं",
+    "view": "देखें",
+    "close": "बंद करें"
+  }
+}

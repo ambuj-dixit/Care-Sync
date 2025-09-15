@@ -1,0 +1,91 @@
+{
+  "app": {
+    "name": "Care Sync",
+    "tagline": "Your Health, Our Priority"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "appointments": "Appointments",
+    "doctors": "Doctors",
+    "pharmacy": "Pharmacy",
+    "health_records": "Health Records",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "phone": "Phone Number",
+    "forgot_password": "Forgot Password?",
+    "dont_have_account": "Don't have an account?",
+    "already_have_account": "Already have an account?",
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "verify_otp": "Verify OTP",
+    "enter_otp": "Enter the OTP sent to your phone",
+    "resend_otp": "Resend OTP"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "upcoming_appointments": "Upcoming Appointments",
+    "recent_consultations": "Recent Consultations",
+    "health_summary": "Health Summary",
+    "quick_actions": "Quick Actions",
+    "book_appointment": "Book Appointment",
+    "view_records": "View Records",
+    "find_pharmacy": "Find Pharmacy"
+  },
+  "appointments": {
+    "book_new": "Book New Appointment",
+    "select_doctor": "Select Doctor",
+    "select_date": "Select Date",
+    "select_time": "Select Time",
+    "consultation_type": "Consultation Type",
+    "video_call": "Video Call",
+    "audio_call": "Audio Call",
+    "symptoms": "Symptoms",
+    "describe_symptoms": "Describe your symptoms",
+    "confirm_booking": "Confirm Booking",
+    "appointment_booked": "Appointment Booked Successfully"
+  },
+  "doctors": {
+    "find_doctor": "Find a Doctor",
+    "specialization": "Specialization",
+    "experience": "Experience",
+    "rating": "Rating",
+    "consultation_fee": "Consultation Fee",
+    "available_now": "Available Now",
+    "book_appointment": "Book Appointment",
+    "view_profile": "View Profile"
+  },
+  "pharmacy": {
+    "search_medicine": "Search Medicine",
+    "medicine_name": "Medicine Name",
+    "category": "Category",
+    "price": "Price",
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock",
+    "prescription_required": "Prescription Required",
+    "add_to_cart": "Add to Cart",
+    "check_availability": "Check Availability"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "close": "Close"
+  }
+}
