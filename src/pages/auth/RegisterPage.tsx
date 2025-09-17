@@ -56,7 +56,7 @@ export const RegisterPage = () => {
       });
     }
   };
-
+//anupriya dddddd
   return (
     <div className="min-h-screen flex items-center justify-center bg-medical-pattern p-4">
       <motion.div
@@ -147,6 +147,8 @@ export const RegisterPage = () => {
                   <p className="text-sm text-destructive">{errors.email.message}</p>
                 )}
               </div>
+
+
 
               <div className="space-y-2">
                 <Label htmlFor="role">Account Type</Label>
