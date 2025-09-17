@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import DoctorRegisterPage from '../auth/DoctorRegisterPage';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -84,7 +85,7 @@ const specializations = [
   'Pediatrician',
 ];
 
-export const DoctorsPage = () => {
+const DoctorsPage = () => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSpecialization, setSelectedSpecialization] = useState('All Specializations');
@@ -323,3 +324,4 @@ export const DoctorsPage = () => {
     </Layout>
   );
 };
+export default DoctorRegisterPage;

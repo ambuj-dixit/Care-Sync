@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import PharmacyRegisterPage from '../auth/PharmacyRegisterPage';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -86,7 +87,7 @@ const categories = [
   'Respiratory',
 ];
 
-export const PharmacyPage = () => {
+const PharmacyPage = () => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
@@ -364,3 +365,4 @@ export const PharmacyPage = () => {
     </Layout>
   );
 };
+export default PharmacyRegisterPage;

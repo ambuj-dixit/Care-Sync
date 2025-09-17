@@ -3,89 +3,94 @@
     "name": "Care Sync",
     "tagline": "Your Health, Our Priority"
   },
-  "navigation": {
-    "dashboard": "Dashboard",
-    "appointments": "Appointments",
-    "doctors": "Doctors",
-    "pharmacy": "Pharmacy",
-    "health_records": "Health Records",
-    "profile": "Profile",
-    "settings": "Settings",
-    "logout": "Logout"
+  "landing": {
+    "badge": "Healthcare Revolution",
+    "cta": {
+      "getStarted": "Get Started",
+      "createAccount": "Create Free Account",
+      "findDoctors": "Find Doctors",
+      "signIn": "Sign In",
+      "startTrial": "Start Free Trial",
+      "learnMore": "Learn More"
+    },
+    "stats": {
+      "patients": "Happy Patients",
+      "doctors": "Expert Doctors",
+      "specs": "Specializations",
+      "support": "Support"
+    },
+    "features": {
+      "title": "Why Choose Care Sync?",
+      "subtitle": "Advanced telemedicine platform designed to make healthcare accessible, convenient, and secure for everyone.",
+      "video": {
+        "title": "Video Consultations",
+        "desc": "Connect with qualified doctors through secure video calls"
+      },
+      "avail": {
+        "title": "24/7 Availability",
+        "desc": "Access healthcare services anytime, anywhere"
+      },
+      "secure": {
+        "title": "Secure & Private",
+        "desc": "Your health data is protected with enterprise-grade security"
+      },
+      "pharmacy": {
+        "title": "Digital Pharmacy",
+        "desc": "Order medicines online with prescription verification"
+      },
+      "experts": {
+        "title": "Expert Doctors",
+        "desc": "Consult with certified healthcare professionals"
+      },
+      "multi": {
+        "title": "Multilingual Support",
+        "desc": "Available in English, Hindi, and Punjabi"
+      }
+    },
+    "benefits": {
+      "title": "Complete Healthcare Solution",
+      "desc": "From consultations to prescriptions, we've got your entire healthcare journey covered."
+    },
+    "journey": {
+      "title": "Start Your Health Journey",
+      "desc": "Join thousands of satisfied patients who trust us with their healthcare needs."
+    },
+    "support": {
+      "title": "24/7 Support",
+      "desc": "We are here to help"
+    },
+    "newsletter": {
+      "title": "Stay updated",
+      "desc": "Get product updates and health tips delivered to your inbox.",
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe",
+      "thanks": "Thanks!"
+    },
+    "testimonials": {
+      "title": "What our users say",
+      "subtitle": "Real feedback from people who use Care Sync",
+      "patient": "Patient",
+      "doctor": "Doctor",
+      "pharmacist": "Pharmacist",
+      "priya": "Care Sync connected me with a specialist within minutes. Super impressed!",
+      "aman": "The telemedicine flow is intuitive — I can manage patients and follow-ups seamlessly.",
+      "harpreet": "Inventory sync and prescription verification make fulfillment a breeze."
+    }
   },
   "auth": {
-    "login": "Login",
-    "register": "Register",
-    "email": "Email",
-    "password": "Password",
-    "phone": "Phone Number",
-    "forgot_password": "Forgot Password?",
-    "dont_have_account": "Don't have an account?",
-    "already_have_account": "Already have an account?",
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
-    "verify_otp": "Verify OTP",
-    "enter_otp": "Enter the OTP sent to your phone",
-    "resend_otp": "Resend OTP"
-  },
-  "dashboard": {
-    "welcome": "Welcome back",
-    "upcoming_appointments": "Upcoming Appointments",
-    "recent_consultations": "Recent Consultations",
-    "health_summary": "Health Summary",
-    "quick_actions": "Quick Actions",
-    "book_appointment": "Book Appointment",
-    "view_records": "View Records",
-    "find_pharmacy": "Find Pharmacy"
-  },
-  "appointments": {
-    "book_new": "Book New Appointment",
-    "select_doctor": "Select Doctor",
-    "select_date": "Select Date",
-    "select_time": "Select Time",
-    "consultation_type": "Consultation Type",
-    "video_call": "Video Call",
-    "audio_call": "Audio Call",
-    "symptoms": "Symptoms",
-    "describe_symptoms": "Describe your symptoms",
-    "confirm_booking": "Confirm Booking",
-    "appointment_booked": "Appointment Booked Successfully"
-  },
-  "doctors": {
-    "find_doctor": "Find a Doctor",
-    "specialization": "Specialization",
-    "experience": "Experience",
-    "rating": "Rating",
-    "consultation_fee": "Consultation Fee",
-    "available_now": "Available Now",
-    "book_appointment": "Book Appointment",
-    "view_profile": "View Profile"
-  },
-  "pharmacy": {
-    "search_medicine": "Search Medicine",
-    "medicine_name": "Medicine Name",
-    "category": "Category",
-    "price": "Price",
-    "in_stock": "In Stock",
-    "out_of_stock": "Out of Stock",
-    "prescription_required": "Prescription Required",
-    "add_to_cart": "Add to Cart",
-    "check_availability": "Check Availability"
+    "selectRoleTitle": "Select Your Role",
+    "selectRoleSubtitle": "Choose how you want to join Care Sync",
+    "selectRolePlaceholder": "Choose role",
+    "roles": {
+      "patient": "Patient",
+      "doctor": "Doctor",
+      "pharmacy": "Pharmacy"
+    },
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "note": "You can register as a Patient, Doctor, or Pharmacy. Each role has a dedicated registration flow."
   },
   "common": {
-    "save": "Save",
-    "cancel": "Cancel",
-    "submit": "Submit",
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "confirm": "Confirm",
-    "search": "Search",
-    "filter": "Filter",
-    "clear": "Clear",
-    "edit": "Edit",
-    "delete": "Delete",
-    "view": "View",
-    "close": "Close"
+    "continue": "Continue"
   }
 }

@@ -21,7 +21,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 };
 
-export const UserDashboard = () => {
+const UserDashboard = () => {
   const { t } = useTranslation();
 
   const stats = [
@@ -302,3 +302,4 @@ export const UserDashboard = () => {
     </Layout>
   );
 };
+export default UserDashboard;

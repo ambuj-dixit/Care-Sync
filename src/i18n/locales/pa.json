@@ -1,91 +1,33 @@
 {
-  "app": {
-    "name": "ਦੇਖਭਾਲ ਸਿੰਕ",
-    "tagline": "ਤੁਹਾਡੀ ਸਿਹਤ, ਸਾਡੀ ਤਰਜੀਹ"
-  },
-  "navigation": {
-    "dashboard": "ਡੈਸ਼ਬੋਰਡ",
-    "appointments": "ਮੁਲਾਕਾਤਾਂ",
-    "doctors": "ਡਾਕਟਰ",
-    "pharmacy": "ਫਾਰਮੇਸੀ",
-    "health_records": "ਸਿਹਤ ਰਿਕਾਰਡ",
-    "profile": "ਪ੍ਰੋਫਾਈਲ",
-    "settings": "ਸੈਟਿੰਗਜ਼",
-    "logout": "ਲਾਗ ਆਉਟ"
+  "app": { "name": "Care Sync", "tagline": "ਤੁਹਾਡੀ ਸਿਹਤ, ਸਾਡੀ ਪ੍ਰਾਥਮਿਕਤਾ" },
+  "landing": {
+    "badge": "ਹੈਲਥਕੇਅਰ ਸੁਲੂਸ਼ਨ",
+    "cta": { "getStarted": "ਸ਼ੁਰੂ ਕਰੋ", "createAccount": "ਮੁਫ਼ਤ ਖਾਤਾ ਬਣਾਓ", "findDoctors": "ਡਾਕਟਰ ਲੱਭੋ", "signIn": "ਸਾਈਨ ਇਨ", "startTrial": "ਮੁਫ਼ਤ ਸ਼ੁਰੂ", "learnMore": "ਹੋਰ ਜਾਣੋ" },
+    "stats": { "patients": "ਖੁਸ਼ ਮਰੀਜ਼", "doctors": "ਮਾਹਿਰ ਡਾਕਟਰ", "specs": "ਖ਼ਾਸੀਅਤਾਂ", "support": "ਸਹਾਇਤਾ" },
+    "features": {
+      "title": "ਸਾਨੂੰ ਕਿਉਂ ਚੁਣੋ?",
+      "subtitle": "ਸੁਧਰੇ ਹੋਏ ਟੈਲੀਮੈਡੀਸਨ ਪਲੇਟਫਾਰਮ ਨਾਲ ਸਿਹਤ ਦੀ ਸੇਵਾ ਸੌਖੀ ਅਤੇ ਸੁਰੱਖਿਅਤ",
+      "video": { "title": "ਵੀਡੀਓ ਪਰਾਮਰਸ਼", "desc": "ਕੁਆਲਿਫਾਇਡ ਡਾਕਟਰਾਂ ਨਾਲ ਸੁਰੱਖਿਅਤ ਵੀਡੀਓ ਕਾਲਾਂ" },
+      "avail": { "title": "24/7 ਉਪਲਬਧਤਾ", "desc": "ਕਦੇ ਵੀ, ਕਿੱਥੇ ਵੀ ਸਿਹਤ ਸੇਵਾਵਾਂ ਹਾਸਲ ਕਰੋ" },
+      "secure": { "title": "ਸੁਰੱਖਿਅਤ ਅਤੇ ਨਿੱਜੀ", "desc": "ਤੁਹਾਡਾ ਸਿਹਤ ਡਾਟਾ ਸੁਰੱਖਿਅਤ ਹੈ" },
+      "pharmacy": { "title": "ਡਿਜੀਟਲ ਫਾਰਮੇਸੀ", "desc": "ਪ੍ਰਿਸਕ੍ਰਿਪਸ਼ਨ ਨਾਲ ਦਵਾਈਆਂ ਆਨਲਾਈਨ ਆਰਡਰ ਕਰੋ" },
+      "experts": { "title": "ਮਾਹਿਰ ਡਾਕਟਰ", "desc": "ਪ੍ਰਮਾਣਿਤ ਪੇਸ਼ੇਵਰਾਂ ਨਾਲ ਪਰਾਮਰਸ਼" },
+      "multi": { "title": "ਕਈ ਭਾਸ਼ਾਵਾਂ", "desc": "ਅੰਗਰੇਜ਼ੀ, ਹਿੰਦੀ ਅਤੇ ਪੰਜਾਬੀ ਵਿੱਚ ਉਪਲਬਧ" }
+    },
+    "benefits": { "title": "ਪੂਰਾ ਸਿਹਤ ਸੌਲਿਊਸ਼ਨ", "desc": "ਕਨਸਲਟੇਸ਼ਨ ਤੋਂ ਪ੍ਰਿਸਕ੍ਰਿਪਸ਼ਨ ਤੱਕ — ਸਾਰਾ ਸਫਰ ਇੱਕ ਥਾਂ" },
+    "journey": { "title": "ਆਪਣਾ ਸਿਹਤ ਯਾਤਰਾ ਸ਼ੁਰੂ ਕਰੋ", "desc": "ਹਜ਼ਾਰਾਂ ਖੁਸ਼ ਮਰੀਜ਼ ਸਾਡੇ ਉੱਤੇ ਭਰੋਸਾ ਕਰਦੇ ਹਨ" },
+    "support": { "title": "24/7 ਸਹਾਇਤਾ", "desc": "ਅਸੀਂ ਮਦਦ ਲਈ ਉੱਥੇ ਹਾਂ" },
+    "newsletter": { "title": "ਅੱਪਡੇਟ ਰਹੋ", "desc": "ਸਾਡੇ ਉਤਪਾਦ ਅੱਪਡੇਟ ਅਤੇ ਸਿਹਤ ਟਿਪਸ ਤੁਹਾਡੇ ਈਮੇਲ 'ਤੇ", "placeholder": "ਈਮੇਲ ਦਰਜ ਕਰੋ", "subscribe": "ਸਬਸਕ੍ਰਾਈਬ", "thanks": "ਧੰਨਵਾਦ!" },
+    "testimonials": { "title": "ਸਾਡੇ ਯੂਜ਼ਰ ਕੀ ਕਹਿੰਦੇ ਹਨ", "subtitle": "ਅਸਲੀ ਫੀਡਬੈਕ", "patient": "ਮਰੀਜ਼", "doctor": "ਡਾਕਟਰ", "pharmacist": "ਫਾਰਮਾਸਿਸਟ", "priya": "ਕੇਅਰ ਸਿੰਕ ਨੇ ਮੈਨੂੰ ਮਿੰਟਾਂ ਵਿੱਚ ਮਾਹਿਰ ਨਾਲ ਜੋੜਿਆ।", "aman": "ਪਰਾਮਰਸ਼ ਪ੍ਰਵਾਹ ਬਹੁਤ ਆਸਾਨ ਹੈ।", "harpreet": "ਇਨਵੈਂਟਰੀ ਅਤੇ ਪ੍ਰਿਸਕ੍ਰਿਪਸ਼ਨ ਪ੍ਰਕਿਰਿਆ ਬਹੁਤ ਆਸਾਨ ਹੋ ਗਈ।" }
   },
   "auth": {
-    "login": "ਲਾਗਇਨ",
-    "register": "ਰਜਿਸਟਰ",
-    "email": "ਈਮੇਲ",
-    "password": "ਪਾਸਵਰਡ",
-    "phone": "ਫੋਨ ਨੰਬਰ",
-    "forgot_password": "ਪਾਸਵਰਡ ਭੁੱਲ ਗਏ?",
-    "dont_have_account": "ਖਾਤਾ ਨਹੀਂ ਹੈ?",
-    "already_have_account": "ਪਹਿਲਾਂ ਤੋਂ ਖਾਤਾ ਹੈ?",
-    "sign_in": "ਸਾਈਨ ਇਨ ਕਰੋ",
-    "sign_up": "ਸਾਈਨ ਅੱਪ ਕਰੋ",
-    "verify_otp": "OTP ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ",
-    "enter_otp": "ਆਪਣੇ ਫੋਨ ਤੇ ਭੇਜਿਆ ਗਿਆ OTP ਦਾਖਲ ਕਰੋ",
-    "resend_otp": "OTP ਦੁਬਾਰਾ ਭੇਜੋ"
-  },
-  "dashboard": {
-    "welcome": "ਵਾਪਸੀ ਤੇ ਜੀ ਆਇਆਂ ਨੂੰ",
-    "upcoming_appointments": "ਆਉਣ ਵਾਲੀਆਂ ਮੁਲਾਕਾਤਾਂ",
-    "recent_consultations": "ਹਾਲ ਦੀਆਂ ਸਲਾਹਾਂ",
-    "health_summary": "ਸਿਹਤ ਸੰਖੇਪ",
-    "quick_actions": "ਤੁਰੰਤ ਕਾਰਵਾਈਆਂ",
-    "book_appointment": "ਮੁਲਾਕਾਤ ਬੁੱਕ ਕਰੋ",
-    "view_records": "ਰਿਕਾਰਡ ਦੇਖੋ",
-    "find_pharmacy": "ਫਾਰਮੇਸੀ ਲੱਭੋ"
-  },
-  "appointments": {
-    "book_new": "ਨਵੀਂ ਮੁਲਾਕਾਤ ਬੁੱਕ ਕਰੋ",
-    "select_doctor": "ਡਾਕਟਰ ਚੁਣੋ",
-    "select_date": "ਤਾਰੀਖ ਚੁਣੋ",
-    "select_time": "ਸਮਾਂ ਚੁਣੋ",
-    "consultation_type": "ਸਲਾਹ ਦੀ ਕਿਸਮ",
-    "video_call": "ਵੀਡੀਓ ਕਾਲ",
-    "audio_call": "ਆਡੀਓ ਕਾਲ",
-    "symptoms": "ਲੱਛਣ",
-    "describe_symptoms": "ਆਪਣੇ ਲੱਛਣਾਂ ਦਾ ਵਰਣਨ ਕਰੋ",
-    "confirm_booking": "ਬੁਕਿੰਗ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ",
-    "appointment_booked": "ਮੁਲਾਕਾਤ ਸਫਲਤਾਪੂਰਵਕ ਬੁੱਕ ਹੋ ਗਈ"
-  },
-  "doctors": {
-    "find_doctor": "ਡਾਕਟਰ ਲੱਭੋ",
-    "specialization": "ਮਾਹਰਤਾ",
-    "experience": "ਤਜਰਬਾ",
-    "rating": "ਰੇਟਿੰਗ",
-    "consultation_fee": "ਸਲਾਹ ਫੀਸ",
-    "available_now": "ਹੁਣ ਉਪਲਬਧ",
-    "book_appointment": "ਮੁਲਾਕਾਤ ਬੁੱਕ ਕਰੋ",
-    "view_profile": "ਪ੍ਰੋਫਾਈਲ ਦੇਖੋ"
-  },
-  "pharmacy": {
-    "search_medicine": "ਦਵਾਈ ਲੱਭੋ",
-    "medicine_name": "ਦਵਾਈ ਦਾ ਨਾਮ",
-    "category": "ਸ਼੍ਰੇਣੀ",
-    "price": "ਕੀਮਤ",
-    "in_stock": "ਸਟਾਕ ਵਿੱਚ",
-    "out_of_stock": "ਸਟਾਕ ਖਤਮ",
-    "prescription_required": "ਨੁਸਖਾ ਲੋੜੀਂਦਾ",
-    "add_to_cart": "ਕਾਰਟ ਵਿੱਚ ਪਾਓ",
-    "check_availability": "ਉਪਲਬਧਤਾ ਜਾਂਚੋ"
-  },
-  "common": {
-    "save": "ਸੰਭਾਲੋ",
+    "selectRoleTitle": "ਆਪਣਾ ਰੋਲ ਚੁਣੋ",
+    "selectRoleSubtitle": "ਚੁਣੋ ਕਿ ਤੁਸੀਂ ਕਿਵੇਂ ਜ਼ੁੜਨਾ ਚਾਹੁੰਦੇ ਹੋ",
+    "selectRolePlaceholder": "ਰੋਲ ਚੁਣੋ",
+    "roles": { "patient": "ਮਰੀਜ਼", "doctor": "ਡਾਕਟਰ", "pharmacy": "ਫਾਰਮੇਸੀ" },
+    "continue": "ਜਾਰੀ ਰੱਖੋ",
     "cancel": "ਰੱਦ ਕਰੋ",
-    "submit": "ਜਮ੍ਹਾਂ ਕਰੋ",
-    "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
-    "error": "ਗਲਤੀ",
-    "success": "ਸਫਲਤਾ",
-    "confirm": "ਪੁਸ਼ਟੀ ਕਰੋ",
-    "search": "ਖੋਜੋ",
-    "filter": "ਫਿਲਟਰ",
-    "clear": "ਸਾਫ਼ ਕਰੋ",
-    "edit": "ਸੰਪਾਦਨ",
-    "delete": "ਮਿਟਾਓ",
-    "view": "ਦੇਖੋ",
-    "close": "ਬੰਦ ਕਰੋ"
-  }
+    "note": "ਤੁਸੀਂ ਮਰੀਜ਼, ਡਾਕਟਰ ਜਾਂ ਫਾਰਮੇਸੀ ਵਜੋਂ ਰਜਿਸਟਰ ਕਰ ਸਕਦੇ ਹੋ। ਹਰ ਰੋਲ ਲਈ ਅਲੱਗ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਪ੍ਰਵਾਹ ਹੈ।"
+  },
+  "common": { "continue": "ਜਾਰੀ ਰੱਖੋ" }
 }

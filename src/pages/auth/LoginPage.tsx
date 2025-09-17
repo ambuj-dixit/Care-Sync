@@ -17,7 +17,7 @@ interface LoginFormData {
   password: string;
 }
 
-export const LoginPage = () => {
+const LoginPage = () => {
   const { t } = useTranslation();
   const { login, isLoading, error } = useAuth();
   const { toast } = useToast();
@@ -29,23 +29,39 @@ export const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>();
-
-  const onSubmit = async (data: LoginFormData) => {
-    try {
-      await login(data.email, data.password);
-      toast({
-        title: t('common.success'),
-        description: 'Welcome back!',
-      });
-      navigate('/dashboard');
-    } catch (error) {
-      toast({
-        title: t('common.error'),
-        description: 'Login failed. Please check your credentials.',
-        variant: 'destructive',
-      });
-    }
+// dummy user 
+    const dummyUsers = {
+    doctor: { email: "doctor@example.com", password: "doctor123" },
+    patient: { email: "patient@example.com", password: "patient123" },
+    pharmacy: { email: "pharmacy@example.com", password: "pharmacy123" },
   };
+
+    const onSubmit = async (data: LoginFormData) => {
+  try {
+    // Dummy credentials
+    if (data.email === "doctor@example.com" && data.password === "doctor123") {
+      navigate("/doctor");   // Doctor dashboard
+    } else if (data.email === "patient@example.com" && data.password === "patient123") {
+      navigate("/dashboard"); // User dashboard
+    } else if (data.email === "pharmacy@example.com" && data.password === "pharmacy123") {
+      navigate("/pharmacy"); // Pharmacy dashboard
+    } else {
+      throw new Error("Invalid credentials");
+    }
+
+    toast({
+      title: t("common.success"),
+      description: "Welcome back!",
+    });
+  } catch (error) {
+    toast({
+      title: t("common.error"),
+      description: "Login failed. Please check your credentials.",
+      variant: "destructive",
+    });
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-medical-pattern p-4">
@@ -155,34 +171,38 @@ export const LoginPage = () => {
             </CardContent>
 
             <CardFooter className="flex flex-col space-y-4">
-              <Button
-                type="submit"
-                className="w-full btn-medical gap-2"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <LoadingSpinner size="sm" />
-                ) : (
-                  <>
-                    {t('auth.sign_in')}
-                    <ArrowRight className="h-4 w-4" />
-                  </>
-                )}
-              </Button>
+  <Button
+    type="submit"
+    className="w-full btn-medical gap-2"
+    disabled={isLoading}
+  >
+    {isLoading ? (
+      <LoadingSpinner size="sm" />
+    ) : (
+      <>
+        {t('auth.sign_in')}
+        <ArrowRight className="h-4 w-4" />
+      </>
+    )}
+  </Button>
 
-              <p className="text-center text-sm text-muted-foreground">
-                {t('auth.dont_have_account')}{' '}
-                <Link
-                  to="/register"
-                  className="text-primary hover:underline font-medium"
-                >
-                  {t('auth.sign_up')}
-                </Link>
-              </p>
-            </CardFooter>
+  {/* 🔥 Updated Sign-up link */}
+  <p className="text-center text-sm text-muted-foreground">
+    {t('auth.dont_have_account')}{' '}
+    <Link
+      to="/register"
+      className="text-primary hover:underline font-medium"
+    >
+      {t('auth.sign_up')}
+    </Link>
+  </p>
+</CardFooter>
+
           </form>
         </Card>
       </motion.div>
     </div>
   );
 };
+
+export default LoginPage;
