@@ -82,7 +82,7 @@ const LoginPage = () => {
               <Mail className="h-8 w-8 text-white" />
             </motion.div>
             <CardTitle className="text-2xl font-bold text-gradient-medical">
-              {t('auth.login')}
+              {t('login')}
             </CardTitle>
             <CardDescription>
               {t('app.tagline')}

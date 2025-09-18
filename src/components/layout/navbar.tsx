@@ -153,7 +153,7 @@ export const Navbar = () => {
                 variant="outline"
                 onClick={() => navigate('/login')}
               >
-                {t('auth.login')}
+                {t('Login')}
               </Button>
               <Button
                 className="btn-medical"
