@@ -35,18 +35,18 @@ const App = () => (
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
 
-            {/* Role selection */}
+            {/* Dashboards & main pages */}
+            <Route path="/dashboard" element={<UserDashboard />} />
+            <Route path="/doctors" element={<DoctorsPage />} />
+            <Route path="/pharmacyD" element={<PharmacyPage />} />
+
+ {/* Role selection */}
             <Route path="/register" element={<Register />} />
 
             {/* Role-based registration */}
             <Route path="/user/register" element={<UserRegisterPage />} />
             <Route path="/doctor/register" element={<DoctorRegisterPage />} />
             <Route path="/pharmacy/register" element={<PharmacyRegisterPage />} />
-
-            {/* Dashboards & main pages */}
-            <Route path="/dashboard" element={<UserDashboard />} />
-            <Route path="/doctors" element={<DoctorsPage />} />
-            <Route path="/pharmacy" element={<PharmacyPage />} />
 
             {/* Catch-all for 404 */}
             <Route path="*" element={<NotFound />} />

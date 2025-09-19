@@ -40,11 +40,11 @@ const LoginPage = () => {
   try {
     // Dummy credentials
     if (data.email === "doctor@example.com" && data.password === "doctor123") {
-      navigate("/doctor");   // Doctor dashboard
+      navigate("/doctors");   // Doctor dashboard
     } else if (data.email === "patient@example.com" && data.password === "patient123") {
       navigate("/dashboard"); // User dashboard
     } else if (data.email === "pharmacy@example.com" && data.password === "pharmacy123") {
-      navigate("/pharmacy"); // Pharmacy dashboard
+      navigate("/pharmacyD"); // Pharmacy dashboard
     } else {
       throw new Error("Invalid credentials");
     }
