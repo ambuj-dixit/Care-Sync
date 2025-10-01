@@ -1,10 +1,12 @@
 // src/pages/LandingPage.tsx
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+// -----------------------------------------------------------------------------
+// LandingPage.tsx (medical theme with blue + green separation, floating heart)
+// -----------------------------------------------------------------------------
+
+import { useEffect, useState, useMemo } from "react";
+import { motion, Variants } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Heart,
   Video,
@@ -16,405 +18,392 @@ import {
   CheckCircle,
   Stethoscope,
   Globe,
-  MessageCircle,
-  Mail,
-  Star
-} from 'lucide-react';
+  Star,
+} from "lucide-react";
 
-// core layout + ui (keeps your theme & components)
-import { Layout } from '@/components/layout/layout';
-import { Button } from '@/components/ui/button';
+import { Layout } from "@/components/layout/layout";
+import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardHeader,
   CardTitle,
-  CardDescription
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import clsx from 'clsx';
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-type Role = 'patient' | 'doctor' | 'pharmacy' | '';
-
-/**
- * Animations lift:
- * containerVariants: used to stagger sections
- * itemVariants: fade + lift for internal elements
- */
-const containerVariants = {
+// -----------------------------------------------------------------------------
+// Animation Variants
+// -----------------------------------------------------------------------------
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+};
+
+const fadeInUp: Variants = {
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.08 }
-  }
+    y: 0,
+    transition: { type: "spring", stiffness: 100, damping: 20 },
+  },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 18 },
-  visible: { opacity: 1, y: 0 }
+const scaleIn: Variants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring", stiffness: 200 },
+  },
 };
 
-export const LandingPage: React.FC = () => {
+// -----------------------------------------------------------------------------
+// Types
+// -----------------------------------------------------------------------------
+type Role = "patient" | "doctor" | "pharmacy" | "";
+
+// -----------------------------------------------------------------------------
+// LandingPage
+// -----------------------------------------------------------------------------
+const LandingPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Role dialog state
-  const [roleDialogOpen, setRoleDialogOpen] = useState<boolean>(false);
-  const [selectedRole, setSelectedRole] = useState<Role>('');
+  // Dialog state
+  const [roleDialogOpen, setRoleDialogOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<Role>("");
 
-  // newsletter state
-  const [newsletterEmail, setNewsletterEmail] = useState<string>('');
-  const [newsletterSubmitted, setNewsletterSubmitted] = useState<boolean>(false);
+  // Newsletter state
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
 
-// auto-open role dialog when URL has ?register=open
+  // Auto open register dialog if ?register=open
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    if (params.get("register") === "open") {
-      setRoleDialogOpen(true);
-    }
+    if (params.get("register") === "open") setRoleDialogOpen(true);
   }, [location]);
-  
-  // Small demo stats
-  const stats = useMemo(
-    () => [
-      { number: '10K+', label: t('landing.stats.patients', 'Happy Patients') },
-      { number: '500+', label: t('landing.stats.doctors', 'Expert Doctors') },
-      { number: '50+', label: t('landing.stats.specs', 'Specializations') },
-      { number: '24/7', label: t('landing.stats.support', 'Support') }
-    ],
-    [t]
+
+  // ---------------------------------------------------------------------------
+  // Animated Stats
+  // ---------------------------------------------------------------------------
+  const stats = [
+    { number: 10000, label: t("landing.stats.patients") },
+    { number: 500, label: t("landing.stats.doctors") },
+    { number: 50, label: t("landing.stats.specs") },
+    { number: 24, label: t("landing.stats.support") },
+  ];
+
+  const [animatedStats, setAnimatedStats] = useState<number[]>(
+    stats.map(() => 0)
   );
 
-  // Features list (keeps your wording keys)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimatedStats((prev) =>
+        prev.map((val, i) =>
+          val < stats[i].number
+            ? val + Math.ceil(stats[i].number / 100)
+            : stats[i].number
+        )
+      );
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  // ---------------------------------------------------------------------------
+  // Features, testimonials and benefits
+  // ---------------------------------------------------------------------------
   const features = useMemo(
     () => [
       {
-        id: 'video',
+        id: "video",
         icon: Video,
-        title: t('landing.features.video.title', 'Video Consultations'),
-        description: t('landing.features.video.desc', 'Connect with qualified doctors through secure video calls'),
-        color: 'bg-blue-500'
+        title: t("landing.features.video.title"),
+        description: t("landing.features.video.desc"),
+        color: "bg-blue-500",
       },
       {
-        id: 'availability',
+        id: "availability",
         icon: Clock,
-        title: t('landing.features.avail.title', '24/7 Availability'),
-        description: t('landing.features.avail.desc', 'Access healthcare services anytime, anywhere'),
-        color: 'bg-green-500'
+        title: t("landing.features.avail.title"),
+        description: t("landing.features.avail.desc"),
+        color: "bg-emerald-500",
       },
       {
-        id: 'secure',
+        id: "secure",
         icon: Shield,
-        title: t('landing.features.secure.title', 'Secure & Private'),
-        description: t('landing.features.secure.desc', 'Your health data is protected with enterprise-grade security'),
-        color: 'bg-purple-500'
+        title: t("landing.features.secure.title"),
+        description: t("landing.features.secure.desc"),
+        color: "bg-blue-500",
       },
       {
-        id: 'pharmacy',
+        id: "pharmacy",
         icon: Pill,
-        title: t('landing.features.pharmacy.title', 'Digital Pharmacy'),
-        description: t('landing.features.pharmacy.desc', 'Order medicines online with prescription verification'),
-        color: 'bg-orange-500'
+        title: t("landing.features.pharmacy.title"),
+        description: t("landing.features.pharmacy.desc"),
+        color: "bg-emerald-500",
       },
       {
-        id: 'experts',
+        id: "experts",
         icon: Users,
-        title: t('landing.features.experts.title', 'Expert Doctors'),
-        description: t('landing.features.experts.desc', 'Consult with certified healthcare professionals'),
-        color: 'bg-red-500'
+        title: t("landing.features.experts.title"),
+        description: t("landing.features.experts.desc"),
+        color: "bg-blue-500",
       },
       {
-        id: 'multilingual',
+        id: "multilingual",
         icon: Globe,
-        title: t('landing.features.multi.title', 'Multilingual Support'),
-        description: t('landing.features.multi.desc', 'Available in English, Hindi, and Punjabi'),
-        color: 'bg-indigo-500'
-      }
+        title: t("landing.features.multi.title"),
+        description: t("landing.features.multi.desc"),
+        color: "bg-emerald-500",
+      },
     ],
     [t]
   );
 
-  const benefits = [
-    t('landing.benefits.instant', 'Instant doctor consultations'),
-    t('landing.benefits.records', 'Digital health records'),
-    t('landing.benefits.prescriptions', 'Prescription management'),
-    t('landing.benefits.appointments', 'Appointment scheduling'),
-    t('landing.benefits.multilang', 'Multi-language support'),
-    t('landing.benefits.secure', 'Secure data protection')
-  ];
-
   const testimonials = [
     {
-      name: 'Priya Kumar',
-      role: t('landing.testimonials.patient', 'Patient'),
-      quote: t('landing.testimonials.priya', "Care Sync connected me with a specialist within minutes. Super impressed!"),
-      rating: 5
+      name: "Priya Kumar",
+      role: t("landing.testimonials.patient"),
+      quote: t("landing.testimonials.priya"),
+      rating: 5,
     },
     {
-      name: 'Dr. Aman Singh',
-      role: t('landing.testimonials.doctor', 'Cardiologist'),
-      quote: t('landing.testimonials.aman', "The telemedicine flow is intuitive — I can manage patients and follow-ups seamlessly."),
-      rating: 5
+      name: "Dr. Aman Singh",
+      role: t("landing.testimonials.doctor"),
+      quote: t("landing.testimonials.aman"),
+      rating: 5,
     },
     {
-      name: 'Harpreet',
-      role: t('landing.testimonials.pharmacist', 'Pharmacist'),
-      quote: t('landing.testimonials.harpreet', "Inventory sync and prescription verification make fulfillment a breeze."),
-      rating: 4
-    }
+      name: "Harpreet",
+      role: t("landing.testimonials.pharmacist"),
+      quote: t("landing.testimonials.harpreet"),
+      rating: 4,
+    },
   ];
 
-  // Handlers (EXACT routes used in App.tsx)
-  const openRoleDialog = () => setRoleDialogOpen(true);
-  const closeRoleDialog = () => {
-    setRoleDialogOpen(false);
-    setSelectedRole('');
-  };
+  const benefits = [
+    t("landing.benefits.instant"),
+    t("landing.benefits.records"),
+    t("landing.benefits.prescriptions"),
+    t("landing.benefits.appointments"),
+    t("landing.benefits.multilang"),
+    t("landing.benefits.secure"),
+  ];
 
+  // ---------------------------------------------------------------------------
+  // Handlers
+  // ---------------------------------------------------------------------------
   const handleRoleContinue = () => {
     if (!selectedRole) return;
-
-    // Correct mapping to routes in App.tsx
-    if (selectedRole === 'patient') navigate('/register/user');
-    else if (selectedRole === 'doctor') navigate('/register/doctor');
-    else if (selectedRole === 'pharmacy') navigate('/register/pharmacy');
-
-    closeRoleDialog();
+    if (selectedRole === "patient") navigate("/register/user");
+    if (selectedRole === "doctor") navigate("/register/doctor");
+    if (selectedRole === "pharmacy") navigate("/register/pharmacy");
+    setRoleDialogOpen(false);
+    setSelectedRole("");
   };
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsletterEmail) return;
     setNewsletterSubmitted(true);
-    // demo reset
-    setTimeout(() => {
-      setNewsletterEmail('');
-    }, 1200);
+    setTimeout(() => setNewsletterEmail(""), 1500);
   };
 
+  // ---------------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------------
   return (
     <Layout>
+      {/* MAIN CONTENT */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="space-y-20"
+        className="relative overflow-hidden space-y-28"
       >
+        {/* Floating blobs (blue + green separate) */}
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute -top-32 -left-20 w-96 h-96 bg-blue-300 rounded-full filter blur-3xl opacity-30 animate-pulse" />
+          <div className="absolute top-20 right-0 w-96 h-96 bg-emerald-300 rounded-full filter blur-3xl opacity-30 animate-pulse" />
+        </div>
+
         {/* HERO */}
-        <motion.section variants={itemVariants} className="text-center py-12 px-4">
+        <motion.section
+          variants={fadeInUp}
+          className="text-center py-24 px-6 relative z-10"
+        >
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.12, type: 'spring', stiffness: 450 }}
-            className="mx-auto w-20 h-20 bg-gradient-medical rounded-full flex items-center justify-center mb-6"
-            aria-hidden
+            variants={scaleIn}
+            className="mx-auto mb-8 animate-bounce bg-blue-500 w-40 h-40 rounded-full flex items-center justify-center shadow-2xl"
           >
-            <Heart className="h-10 w-10 text-white" />
+            <Heart className="h-24 w-24 text-white drop-shadow-lg" />
           </motion.div>
 
-          <motion.h1
-            variants={itemVariants}
-            className="text-4xl md:text-6xl font-bold text-gradient-medical leading-tight"
-          >
-            {t('app.name', 'Care Sync')}
-          </motion.h1>
+          <h1 className="text-6xl md:text-7xl font-extrabold text-blue-600 drop-shadow-lg">
+            {t("app.name")}
+          </h1>
 
-          <motion.p
-            variants={itemVariants}
-            className="text-lg md:text-2xl text-muted-foreground max-w-2xl mx-auto mt-4"
-          >
-            {t('app.tagline', 'Experience healthcare like never before')}
-          </motion.p>
+          <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto">
+            {t("app.tagline")}
+          </p>
 
-          <div className="mt-4">
-            <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200">
-              {t('landing.badge.hackathon', 'Hackathon — Free')}
+          <div className="mt-6">
+            <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 animate-pulse">
+              {t("We-Care we-serve")}
             </Badge>
           </div>
 
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8"
-          >
-            {/* All registration CTAs open the role dialog */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
             <Button
               size="lg"
-              className="btn-medical text-lg px-8 py-4"
-              onClick={openRoleDialog}
-              aria-label={t('landing.cta.getStarted', 'Get Started')}
+              className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg"
+              onClick={() => setRoleDialogOpen(true)}
             >
-              {t('landing.cta.getStarted', 'Get Started')}
+              {t("landing.cta.getStarted")}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
 
             <Button
-              variant="outline"
               size="lg"
-              className="text-lg px-8 py-4"
-              onClick={() => navigate('/doctors')}
-              aria-label={t('landing.cta.findDoctors', 'Find Doctors')}
+              className="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl shadow-lg"
+              onClick={() => navigate("/doctors")}
             >
               <Stethoscope className="mr-2 h-5 w-5" />
-              {t('landing.cta.findDoctors', 'Find Doctors')}
+              {t("landing.cta.findDoctors")}
             </Button>
-
-            <Button
-              variant="ghost"
-              size="lg"
-              className="text-lg px-8 py-4"
-              onClick={() => navigate('/login')}
-              aria-label={t('landing.cta.signIn', 'Sign In')}
-            >
-              {t('landing.cta.signIn', 'Sign In')}
-            </Button>
-          </motion.div>
+          </div>
 
           {/* Stats */}
-          <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
-            {stats.map((s, idx) => (
-              <motion.div key={idx} variants={itemVariants} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gradient-medical">{s.number}</div>
-                <div className="text-sm text-muted-foreground mt-1">{s.label}</div>
-              </motion.div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
+            {stats.map((s, i) => (
+              <Card
+                key={i}
+                className="p-6 bg-white/80 backdrop-blur border border-blue-100 shadow-md"
+              >
+                <div className="text-3xl md:text-4xl font-bold text-blue-600">
+                  {i === 3
+                    ? `${animatedStats[i]}/7`
+                    : `${animatedStats[i]}${i === 0 ? "+" : ""}`}
+                </div>
+                <div className="mt-2 text-sm text-gray-600">{s.label}</div>
+              </Card>
             ))}
-          </motion.div>
+          </div>
         </motion.section>
 
         {/* FEATURES */}
-        <motion.section variants={itemVariants} className="space-y-8 px-4">
-          <div className="text-center space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold">{t('landing.features.title', 'Why Choose Care Sync?')}</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              {t('landing.features.subtitle', 'Advanced telemedicine platform designed to make healthcare accessible, convenient, and secure for everyone.')}
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => {
-              const Icon = feature.icon;
+        <motion.section variants={fadeInUp} className="px-6">
+          <h2 className="text-4xl font-bold text-center mb-12 text-blue-600">
+            {t("landing.features.title")}
+          </h2>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((f) => {
+              const Icon = f.icon;
               return (
-                <motion.div
-                  key={feature.id}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
+                <Card
+                  key={f.id}
+                  className="p-6 hover:shadow-xl transition-all bg-white/90 border"
                 >
-                  <Card className="h-full card-medical-hover">
-                    <CardHeader>
-                      <div className={clsx('w-12 h-12 rounded-lg flex items-center justify-center mb-4', feature.color)}>
-                        <Icon className="h-6 w-6 text-white" />
-                      </div>
-                      <CardTitle>{feature.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-base">{feature.description}</CardDescription>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                  <CardHeader>
+                    <div
+                      className={`w-14 h-14 rounded-xl ${f.color} flex items-center justify-center mb-4 shadow-md`}
+                    >
+                      <Icon className="h-7 w-7 text-white" />
+                    </div>
+                    <CardTitle>{f.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>{f.description}</CardDescription>
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
         </motion.section>
 
-        {/* BENEFITS & CTA */}
-        <motion.section variants={itemVariants} className="px-4">
-          <Card className="card-medical bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-            <CardContent className="p-8 md:p-12">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-6">
-                  <Badge className="bg-primary/20 text-primary border-primary/30">{t('landing.badge', 'Healthcare Revolution')}</Badge>
-
-                  <h2 className="text-3xl font-bold">{t('landing.benefits.title', 'Complete Healthcare Solution')}</h2>
-                  <p className="text-muted-foreground text-lg">
-                    {t('landing.benefits.desc', "From consultations to prescriptions, we've got your entire healthcare journey covered.")}
-                  </p>
-
-                  <ul className="space-y-3">
-                    {benefits.map((b, i) => (
-                      <motion.li
-                        key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.06 * i }}
-                        className="flex items-center gap-3"
-                      >
-                        <CheckCircle className="h-5 w-5 text-accent" />
-                        <span>{b}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-
-                  <div className="flex gap-3 mt-3">
-                    <Button onClick={openRoleDialog} size="lg" className="btn-medical px-6 py-3">
-                      {t('landing.cta.createAccount', 'Create Free Account')}
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" onClick={() => navigate('/about')} size="lg" className="px-6 py-3">
-                      {t('landing.cta.learnMore', 'Learn More')}
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <motion.div
-                    className="bg-gradient-medical rounded-2xl p-8 text-white text-center"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: 'spring', stiffness: 300 }}
-                  >
-                    <Heart className="h-16 w-16 mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold mb-2">{t('landing.journey.title', 'Start Your Health Journey')}</h3>
-                    <p className="text-white/80 mb-6">{t('landing.journey.desc', 'Join thousands of satisfied patients who trust us with their healthcare needs.')}</p>
-                    <Button size="lg" variant="secondary" className="w-full" onClick={openRoleDialog}>
-                      {t('landing.cta.startTrial', 'Start Free Trial')}
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </motion.div>
-
-                  {/* subtle floating card */}
-                  <div className="absolute -bottom-8 left-6 right-6">
-                    <Card className="p-4 shadow-lg">
-                      <div className="flex items-center gap-4">
-                        <div className="rounded-full bg-white/10 p-2">
-                          <MessageCircle className="h-6 w-6 text-primary" />
-                        </div>
-                        <div>
-                          <div className="text-sm font-medium">{t('landing.support.title', '24/7 Support')}</div>
-                          <div className="text-xs text-muted-foreground">{t('landing.support.desc', 'We are here to help')}</div>
-                        </div>
-                      </div>
-                    </Card>
-                  </div>
-                </div>
+        {/* BENEFITS */}
+        <motion.section variants={fadeInUp} className="px-6">
+          <Card className="p-12 bg-white/80 backdrop-blur border border-emerald-100">
+            <div className="grid md:grid-cols-2 gap-10 items-center">
+              <div>
+                <Badge className="bg-blue-100 text-blue-700">
+                  {t("landing.badge")}
+                </Badge>
+                <h2 className="text-3xl font-bold mt-4 text-blue-600">
+                  {t("landing.benefits.title")}
+                </h2>
+                <p className="text-gray-600 mt-2">
+                  {t("landing.benefits.desc")}
+                </p>
+                <ul className="space-y-3 mt-6">
+                  {benefits.map((b, i) => (
+                    <li key={i} className="flex items-center gap-3">
+                      <CheckCircle className="h-5 w-5 text-emerald-500" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </CardContent>
+              <div className="text-center p-8 border rounded-xl border-blue-100 bg-white shadow">
+                <Heart className="h-16 w-16 mx-auto mb-4 text-blue-500" />
+                <h3 className="text-2xl font-bold mb-2">
+                  {t("landing.journey.title")}
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  {t("landing.journey.desc")}
+                </p>
+                <Button
+                  size="lg"
+                  className="w-full bg-emerald-500 hover:bg-emerald-600 text-white"
+                  onClick={() => setRoleDialogOpen(true)}
+                >
+                  {t("landing.cta.startTrial")}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           </Card>
         </motion.section>
 
         {/* TESTIMONIALS */}
-        <motion.section variants={itemVariants} className="px-4">
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold">{t('landing.testimonials.title', 'What our users say')}</h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t('landing.testimonials.subtitle', 'Real feedback from people who use Care Sync')}</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
+        <motion.section variants={fadeInUp} className="px-6">
+          <h3 className="text-3xl font-bold text-center mb-10 text-emerald-600">
+            {t("landing.testimonials.title")}
+          </h3>
+          <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((tm, i) => (
-              <Card key={i} className="p-6">
+              <Card
+                key={i}
+                className="p-6 bg-white/80 backdrop-blur border border-blue-100 shadow-lg"
+              >
                 <div className="flex items-start gap-4">
-                  <div className="rounded-full bg-primary/10 p-3">
-                    <Star className="h-6 w-6 text-primary" />
-                  </div>
+                  <Star className="h-6 w-6 text-blue-500" />
                   <div>
                     <div className="font-semibold">{tm.name}</div>
-                    <div className="text-xs text-muted-foreground mb-2">{tm.role}</div>
-                    <div className="text-sm">{tm.quote}</div>
-                    <div className="mt-3 flex items-center gap-1 text-amber-400">
-                      {Array.from({ length: tm.rating }).map((_, idx) => <Star key={idx} className="h-4 w-4" />)}
+                    <div className="text-xs text-gray-500 mb-2">{tm.role}</div>
+                    <div className="text-sm text-gray-700">{tm.quote}</div>
+                    <div className="mt-3 flex text-amber-400">
+                      {Array.from({ length: tm.rating }).map((_, idx) => (
+                        <Star key={idx} className="h-4 w-4" />
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -423,67 +412,76 @@ export const LandingPage: React.FC = () => {
           </div>
         </motion.section>
 
-        {/* NEWSLETTER / FOOTER CTA */}
-        <motion.section variants={itemVariants} className="px-4">
-          <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-8 md:p-12 flex flex-col md:flex-row gap-6 items-center">
+        {/* NEWSLETTER */}
+        <motion.section variants={fadeInUp} className="px-6">
+          <Card className="max-w-4xl mx-auto p-8 flex flex-col md:flex-row gap-6 items-center bg-white/80 backdrop-blur border border-emerald-100">
             <div className="flex-1">
-              <h3 className="text-2xl font-bold">{t('landing.newsletter.title', 'Stay updated')}</h3>
-              <p className="text-muted-foreground">{t('landing.newsletter.desc', 'Get product updates and health tips delivered to your inbox.')}</p>
+              <h3 className="text-2xl font-bold text-blue-600">
+                {t("landing.newsletter.title")}
+              </h3>
+              <p className="text-gray-600">{t("landing.newsletter.desc")}</p>
             </div>
-
-            <form onSubmit={handleNewsletterSubmit} className="flex gap-3 items-center w-full md:w-auto">
-              <div className="flex items-center gap-2">
-                <Label className="sr-only">{t('landing.newsletter.email', 'Email')}</Label>
-                <Input value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} placeholder={t('landing.newsletter.placeholder', 'Enter your email')} aria-label="newsletter-email" />
-              </div>
-
-              <Button type="submit" className="btn-medical">
-                {newsletterSubmitted ? t('landing.newsletter.thanks', 'Thanks!') : t('landing.newsletter.subscribe', 'Subscribe')}
-                <Mail className="ml-2 h-4 w-4" />
+            <form
+              onSubmit={handleNewsletterSubmit}
+              className="flex gap-3 items-center w-full md:w-auto"
+            >
+              <Label className="sr-only">{t("landing.newsletter.email")}</Label>
+              <Input
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                placeholder={t("landing.newsletter.placeholder")}
+                className="focus:ring-2 focus:ring-blue-400"
+              />
+              <Button
+                type="submit"
+                className="bg-emerald-500 hover:bg-emerald-600 text-white"
+              >
+                {newsletterSubmitted
+                  ? t("landing.newsletter.subscribed")
+                  : t("landing.newsletter.subscribe")}
               </Button>
             </form>
-          </div>
+          </Card>
         </motion.section>
       </motion.div>
 
-      {/* ROLE SELECTION DIALOG (unchanged UI; corrected routing) */}
-<Dialog open={roleDialogOpen} onOpenChange={(v) => setRoleDialogOpen(Boolean(v))}>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>{t('auth.selectRoleTitle', 'Select Your Role')}</DialogTitle>
-    </DialogHeader>
-
-    <div className="space-y-4 mt-2">
-      <div className="text-sm text-muted-foreground">
-        {t('auth.selectRoleSubtitle', 'Choose how you want to join Care Sync')}
-      </div>
-
-      <Select value={selectedRole} onValueChange={(val) => setSelectedRole(val as Role)}>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder={t('auth.selectRolePlaceholder', 'Choose role')} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="patient">{t('auth.roles.patient', 'Patient')}</SelectItem>
-          <SelectItem value="doctor">{t('auth.roles.doctor', 'Doctor')}</SelectItem>
-          <SelectItem value="pharmacy">{t('auth.roles.pharmacy', 'Pharmacy')}</SelectItem>
-        </SelectContent>
-      </Select>
-
-      <div className="flex gap-3">
-        <Button onClick={handleRoleContinue} className="flex-1" disabled={!selectedRole}>
-          {t('auth.continue', 'Continue')}
-        </Button>
-        <Button variant="outline" onClick={closeRoleDialog} className="flex-1">
-          {t('auth.cancel', 'Cancel')}
-        </Button>
-      </div>
-
-      <div className="text-xs text-muted-foreground">
-        {t('auth.note', 'You can register as a Patient, Doctor, or Pharmacy. Each role has a dedicated registration flow.')}
-      </div>
-    </div>
-  </DialogContent>
-</Dialog>
+      {/* ROLE DIALOG */}
+      <Dialog open={roleDialogOpen} onOpenChange={setRoleDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("landing.dialog.title")}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Select
+              value={selectedRole}
+              onValueChange={(val) => setSelectedRole(val as Role)}
+            >
+              <SelectTrigger>
+                <SelectValue
+                  placeholder={t("landing.dialog.placeholder")}
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="patient">
+                  {t("landing.dialog.patient")}
+                </SelectItem>
+                <SelectItem value="doctor">
+                  {t("landing.dialog.doctor")}
+                </SelectItem>
+                <SelectItem value="pharmacy">
+                  {t("landing.dialog.pharmacy")}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              onClick={handleRoleContinue}
+            >
+              {t("landing.dialog.continue")}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };

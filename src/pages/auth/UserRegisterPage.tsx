@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -43,40 +43,27 @@ const UserRegisterPage: React.FC = () => {
     }
   };
 
-  const handleOtpClick = () => {
-    setOtpSent(true);
-    // 🚀 Add actual OTP sending logic here
-  };
+  const handleOtpClick = () => setOtpSent(true);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!passwordError) {
-      console.log("Registering user with file:", file);
-    }
+    if (!passwordError) console.log("Registering user with file:", file);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100 p-6">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="w-full max-w-lg"
       >
-        <Card className="shadow-2xl rounded-2xl border border-gray-200 overflow-hidden">
+        <Card className="shadow-2xl rounded-2xl border-none overflow-hidden dark:bg-gray-900 dark:border-gray-700">
           {/* Header */}
-          <CardHeader className="bg-sky-500 text-white text-center py-8">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <CardTitle className="text-2xl font-bold">
-                {t("user.register.title")}
-              </CardTitle>
-              <p className="text-sm opacity-90 mt-2">
-                {t("user.register.subtitle")}
-              </p>
+          <CardHeader className="bg-gradient-to-r from-sky-400 to-sky-600 text-white text-center py-8 dark:from-sky-600 dark:to-sky-800">
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+              <CardTitle className="text-2xl font-bold">{t("user.register.title")}</CardTitle>
+              <p className="text-sm opacity-90 mt-2">{t("user.register.subtitle")}</p>
             </motion.div>
           </CardHeader>
 
@@ -84,139 +71,68 @@ const UserRegisterPage: React.FC = () => {
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Profile Upload */}
-              <motion.div
-                className="flex flex-col items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
+              <motion.div className="flex flex-col items-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
                 <div className="relative">
                   {preview ? (
                     <motion.img
                       key="preview"
                       src={preview}
                       alt="Profile Preview"
-                      className="w-28 h-28 rounded-full object-cover border-4 border-sky-400 shadow-lg"
+                      className="w-28 h-28 rounded-full object-cover border-4 border-sky-400 shadow-lg dark:border-sky-500"
                       initial={{ scale: 0.8 }}
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.3 }}
                     />
                   ) : (
-                    <div className="w-28 h-28 flex items-center justify-center rounded-full border-4 border-dashed border-gray-300 bg-gray-100 shadow-inner">
-                      <User className="w-10 h-10 text-gray-500" />
+                    <div className="w-28 h-28 flex items-center justify-center rounded-full border-4 border-dashed border-gray-300 bg-gray-100 shadow-inner dark:border-gray-600 dark:bg-gray-800">
+                      <User className="w-10 h-10 text-gray-500 dark:text-gray-400" />
                     </div>
                   )}
                   <label
                     htmlFor="profile"
-                    className="absolute bottom-1 right-1 bg-sky-500 hover:bg-sky-600 text-white p-2 rounded-full shadow-md cursor-pointer"
+                    className="absolute bottom-1 right-1 bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md cursor-pointer"
                   >
                     <Upload className="w-4 h-4" />
-                    <input
-                      type="file"
-                      id="profile"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleFileChange}
-                    />
+                    <input type="file" id="profile" accept="image/*" className="hidden" onChange={handleFileChange} />
                   </label>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  {t("doctor.register.image")}
-                </p>
+                <p className="text-xs text-gray-500 mt-2 dark:text-gray-400">{t("doctor.register.image")}</p>
               </motion.div>
 
-              {/* Name */}
-              <Input
-                type="text"
-                placeholder={t("user.register.name")}
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
+              {/* Fields */}
+              <Input type="text" placeholder={t("user.register.name")} className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-sky-500" required />
+              <Input type="email" placeholder={t("user.register.email")} className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-sky-500" required />
+              <Input type="password" placeholder={t("user.register.password")} value={password} onChange={(e) => handlePasswordChange(e.target.value)} className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-sky-500" required />
+              <Input type="password" placeholder={t("user.register.reenterPassword")} value={confirmPassword} onChange={(e) => handleConfirmPasswordChange(e.target.value)} className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-sky-500" required />
+              {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
 
-              {/* Email */}
-              <Input
-                type="email"
-                placeholder={t("user.register.email")}
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* Password */}
-              <Input
-                type="password"
-                placeholder={t("user.register.password")}
-                value={password}
-                onChange={(e) => handlePasswordChange(e.target.value)}
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* Confirm Password */}
-              <Input
-                type="password"
-                placeholder={t("user.register.reenterPassword")}
-                value={confirmPassword}
-                onChange={(e) => handleConfirmPasswordChange(e.target.value)}
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* Password Error */}
-              {passwordError && (
-                <p className="text-red-500 text-sm">{passwordError}</p>
-              )}
-
-              {/* OTP Button */}
+              {/* OTP */}
               {!otpSent && (
-                <Button
-                  type="button"
-                  onClick={handleOtpClick}
-                  className="w-full h-12 rounded-xl bg-sky-500 hover:bg-sky-600 text-white shadow-lg"
-                >
+                <Button type="button" onClick={handleOtpClick} className="w-full h-12 rounded-xl bg-green-500 hover:bg-green-600 text-white shadow-lg">
                   {t("user.register.otp")}
                 </Button>
               )}
 
-              {/* OTP Input + Resend Button */}
-              {otpSent && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="space-y-4"
-                >
-                  <Input
-                    type="text"
-                    placeholder={t("user.register.enterOtp")}
-                    className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-green-500"
-                    required
-                  />
-                  <Button
-                    type="button"
-                    onClick={handleOtpClick}
-                    className="w-full h-12 rounded-xl bg-green-500 hover:bg-green-600 text-white shadow-lg"
-                  >
-                    {t("user.register.resendOtp")}
-                  </Button>
-                </motion.div>
-              )}
+              <AnimatePresence>
+                {otpSent && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="space-y-4">
+                    <Input type="text" placeholder={t("user.register.enterOtp")} className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-600 dark:focus:ring-green-500" required />
+                    <Button type="button" onClick={handleOtpClick} className="w-full h-12 rounded-xl bg-green-500 hover:bg-green-600 text-white shadow-lg">
+                      {t("user.register.resendOtp")}
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Submit */}
-              <Button
-                type="submit"
-                className="w-full h-12 rounded-xl bg-sky-600 hover:bg-sky-700 text-white shadow-lg"
-                disabled={!!passwordError}
-              >
+              <Button type="submit" className="w-full h-12 rounded-xl bg-sky-600 hover:bg-sky-700 text-white shadow-lg" disabled={!!passwordError}>
                 {t("user.register.submit")}
               </Button>
 
-              {/* Already Have Account */}
-              <div className="text-center text-sm text-gray-600">
+              {/* Already have account */}
+              <div className="text-center text-sm text-gray-600 dark:text-gray-400">
                 {t("user.register.haveAccount")}{" "}
-                <a
-                  href="/login"
-                  className="text-sky-600 font-medium hover:underline"
-                >
+                <a href="/login" className="text-sky-600 font-medium hover:underline dark:text-sky-400">
                   {t("user.register.signIn")}
                 </a>
               </div>

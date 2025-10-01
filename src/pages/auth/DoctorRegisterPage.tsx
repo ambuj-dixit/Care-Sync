@@ -30,16 +30,16 @@ const DoctorRegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-50 via-white to-green-50 p-6">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-100 via-white to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6 transition-colors">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="w-full max-w-lg"
       >
-        <Card className="shadow-2xl rounded-2xl border-none overflow-hidden">
+        <Card className="shadow-2xl rounded-2xl border-none overflow-hidden dark:bg-gray-800 dark:text-gray-100">
           {/* Header */}
-          <CardHeader className="bg-gradient-to-r from-sky-400 to-green-400 text-white text-center py-8">
+          <CardHeader className="bg-gradient-to-r from-sky-400 to-sky-500 dark:from-sky-600 dark:to-sky-700 text-white text-center py-8">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -65,14 +65,14 @@ const DoctorRegisterPage: React.FC = () => {
                       key="preview"
                       src={preview}
                       alt="Profile Preview"
-                      className="w-28 h-28 rounded-full object-cover border-4 border-sky-400 shadow-lg"
+                      className="w-28 h-28 rounded-full object-cover border-4 border-sky-400 dark:border-sky-600 shadow-lg"
                       initial={{ scale: 0.8 }}
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.3 }}
                     />
                   ) : (
-                    <div className="w-28 h-28 flex items-center justify-center rounded-full border-4 border-dashed border-gray-300 bg-gray-100 shadow-inner">
-                      <User className="w-10 h-10 text-gray-500" />
+                    <div className="w-28 h-28 flex items-center justify-center rounded-full border-4 border-dashed border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 shadow-inner">
+                      <User className="w-10 h-10 text-gray-500 dark:text-gray-300" />
                     </div>
                   )}
                   <label
@@ -89,7 +89,7 @@ const DoctorRegisterPage: React.FC = () => {
                     />
                   </label>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                   {t("doctor.register.image")}
                 </p>
               </div>
@@ -98,28 +98,28 @@ const DoctorRegisterPage: React.FC = () => {
               <Input
                 type="text"
                 placeholder={t("doctor.register.name")}
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
+                className="h-12 rounded-xl border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-sky-400 dark:focus:ring-sky-500 bg-white dark:bg-gray-700"
                 required
               />
 
-              {/* Email with OTP */}
+              {/* Email + OTP */}
               <div className="flex items-center gap-2">
                 <Input
                   type="email"
                   placeholder={t("doctor.register.email") || "Enter Email"}
-                  className="h-12 flex-1 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
+                  className="h-12 flex-1 rounded-xl border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-sky-400 dark:focus:ring-sky-500 bg-white dark:bg-gray-700"
                   required
                 />
                 <Button
                   type="button"
                   onClick={handleSendOtp}
-                  className="h-12 rounded-xl bg-green-500 hover:bg-green-600 text-white px-4"
+                  className="h-12 rounded-xl bg-green-500 hover:bg-green-600 text-white dark:bg-green-600 dark:hover:bg-green-700 px-4"
                 >
                   {otpSent ? "Resend OTP" : "Send OTP"}
                 </Button>
               </div>
 
-              {/* OTP Popup Animation */}
+              {/* OTP Field */}
               <AnimatePresence>
                 {otpSent && (
                   <motion.div
@@ -127,103 +127,68 @@ const DoctorRegisterPage: React.FC = () => {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.8, y: -20 }}
                     transition={{ duration: 0.4 }}
-                    className="space-y-2 bg-sky-50 border border-sky-200 p-4 rounded-xl shadow-inner"
+                    className="space-y-2 bg-sky-50 dark:bg-gray-700 border border-sky-200 dark:border-gray-600 p-4 rounded-xl shadow-inner"
                   >
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Enter OTP
                     </label>
                     <Input
                       type="text"
                       maxLength={6}
                       placeholder="6-digit OTP"
-                      className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-green-400"
+                      className="h-12 rounded-xl border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-green-400 dark:focus:ring-green-500 bg-white dark:bg-gray-800"
                       required
                     />
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Speciality */}
-              <Input
-                type="text"
-                placeholder="Speciality"
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* Type */}
-              <Input
-                type="text"
-                placeholder="Type (e.g., Surgeon, Physician)"
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* City */}
-              <Input
-                type="text"
-                placeholder="City"
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* Languages */}
-              <Input
-                type="text"
-                placeholder="Languages (comma separated)"
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* Experience */}
-              <Input
-                type="number"
-                placeholder="Experience (in years)"
-                min={0}
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* Doctor License Number */}
-              <Input
-                type="text"
-                placeholder="Doctor License Number"
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* Password */}
-              <Input
-                type="password"
-                placeholder="Password (min 6 chars & 1 number)"
-                pattern="^(?=.*[0-9]).{6,}$"
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
-
-              {/* Confirm Password */}
-              <Input
-                type="password"
-                placeholder="Re-enter Password"
-                pattern="^(?=.*[0-9]).{6,}$"
-                className="h-12 rounded-xl border-gray-300 focus:ring-2 focus:ring-sky-400"
-                required
-              />
+              {/* Other Fields */}
+              {[
+                "Speciality",
+                "Type (e.g., Surgeon, Physician)",
+                "City",
+                "Languages (comma separated)",
+                "Experience (in years)",
+                "Doctor License Number",
+                "Password (min 6 chars & 1 number)",
+                "Re-enter Password",
+              ].map((placeholder, i) => (
+                <Input
+                  key={i}
+                  type={
+                    placeholder.toLowerCase().includes("password")
+                      ? "password"
+                      : placeholder.includes("Experience")
+                      ? "number"
+                      : "text"
+                  }
+                  placeholder={placeholder}
+                  min={placeholder.includes("Experience") ? 0 : undefined}
+                  pattern={
+                    placeholder.toLowerCase().includes("password")
+                      ? "^(?=.*[0-9]).{6,}$"
+                      : undefined
+                  }
+                  className="h-12 rounded-xl border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-sky-400 dark:focus:ring-sky-500 bg-white dark:bg-gray-700"
+                  required
+                />
+              ))}
 
               {/* Submit */}
               <Button
                 type="submit"
-                className="w-full h-12 rounded-xl bg-green-500 hover:bg-green-600 text-white shadow-lg"
+                className="w-full h-12 rounded-xl bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white shadow-lg"
               >
                 {t("doctor.register.submit")}
               </Button>
 
               {/* Already Have Account */}
-              <div className="text-center text-sm text-gray-600">
+              <div className="text-center text-sm text-gray-600 dark:text-gray-400">
                 {t("doctor.register.haveAccount")}{" "}
                 <a
                   href="/login"
-                  className="text-sky-600 font-medium hover:underline"
+                  className="text-sky-600 dark:text-sky-400 font-medium hover:underline"
                 >
                   {t("doctor.register.signIn")}
                 </a>
