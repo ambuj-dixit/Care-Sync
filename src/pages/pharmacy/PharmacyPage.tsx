@@ -1,237 +1,243 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Plus,
-  Trash2,
-  Search,
-  Settings,
-  BarChart3,
-  Package,
-  LogOut,
-} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Trash2, Edit } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
-// ✅ Define Medicine type
 type Medicine = {
   id: number;
   name: string;
-  expiry: string;
   price: number;
+  expiry: string;
 };
 
-function PharmacyPage() {
-  const [medicines, setMedicines] = useState<Medicine[]>([
-    { id: 1, name: "Paracetamol", expiry: "2025-05-20", price: 50 },
-    { id: 2, name: "Amoxicillin", expiry: "2024-12-10", price: 120 },
-    { id: 3, name: "Cough Syrup", expiry: "2026-01-15", price: 80 },
-  ]);
 
-  // ✅ Form price is string (for <input/> compatibility)
-  const [form, setForm] = useState<{ name: string; expiry: string; price: string }>({
-    name: "",
-    expiry: "",
-    price: "",
-  });
-
-  const [search, setSearch] = useState("");
+const PharmacyPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [darkMode, setDarkMode] = useState(false);
+  const [medicines, setMedicines] = useState<Medicine[]>([
+    { id: 1, name: "Paracetamol", price: 50, expiry: "2025-10-10" },
+    { id: 2, name: "Ibuprofen", price: 70, expiry: "2025-10-15" },
+    { id: 3, name: "Amoxicillin", price: 120, expiry: "2025-09-28" },
+  ]);
+
+  const [name, setName] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [price, setPrice] = useState<number | "">("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [filter, setFilter] = useState("");
+  const [sortOption, setSortOption] = useState<"A-Z" | "Price" | "Expiry">("A-Z");
+
+  // Refs for inputs
+  const nameRef = useRef<HTMLInputElement>(null);
+  const expiryRef = useRef<HTMLInputElement>(null);
+  const priceRef = useRef<HTMLInputElement>(null);
+
+  const generateId = () => new Date().getTime();
+
+  const handleAddMedicine = () => {
+    if (!name || !expiry || !price) return;
+
+    if (editingId) {
+      setMedicines((prev) =>
+        prev.map((med) =>
+          med.id === editingId ? { id: editingId, name, price: Number(price), expiry } : med
+        )
+      );
+      toast.success("Medicine updated!");
+      setEditingId(null);
+    } else {
+      const newMedicine: Medicine = { id: generateId(), name, price: Number(price), expiry };
+      setMedicines([newMedicine, ...medicines]);
+      toast.success("Medicine added!");
+    }
+
+    setName("");
+    setExpiry("");
+    setPrice("");
+
+    nameRef.current?.focus();
   };
 
-  const addMedicine = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.expiry || !form.price) return;
-
-    const newMed: Medicine = {
-      id: Date.now(),
-      name: form.name,
-      expiry: form.expiry,
-      price: Number(form.price), // ✅ Convert string → number
-    };
-
-    setMedicines([...medicines, newMed]);
-    setForm({ name: "", expiry: "", price: "" });
+  const handleEdit = (med: Medicine) => {
+    setName(med.name);
+    setExpiry(med.expiry);
+    setPrice(med.price);
+    setEditingId(med.id);
+    nameRef.current?.focus();
   };
 
-  const deleteMedicine = (id: number) => {
-    setMedicines(medicines.filter((med) => med.id !== id));
+const handleDelete = (id: number) => {
+  setMedicines(medicines.filter((med) => med.id !== id));
+  toast.error("Medicine deleted");
+};
+
+
+  const handleKeyPress = (e: React.KeyboardEvent, field: "name" | "expiry" | "price") => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (field === "name") expiryRef.current?.focus();
+      else if (field === "expiry") priceRef.current?.focus();
+      else handleAddMedicine();
+    }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    navigate("/login");
+  const isExpiringSoon = (date: string) => {
+    const today = new Date();
+    const expiryDate = new Date(date);
+    const diff = (expiryDate.getTime() - today.getTime()) / (1000 * 3600 * 24);
+    return diff <= 10;
   };
 
-  // Stats
-  const totalValue = medicines.reduce((sum, med) => sum + med.price, 0);
-  const expiringSoon = medicines.filter(
-    (med) => new Date(med.expiry) < new Date("2025-12-31")
-  ).length;
+  const displayedMedicines = medicines
+    .filter((med) => med.name.toLowerCase().includes(filter.toLowerCase()))
+    .sort((a, b) => {
+      if (sortOption === "A-Z") return a.name.localeCompare(b.name);
+      if (sortOption === "Price") return a.price - b.price;
+      if (sortOption === "Expiry") return new Date(a.expiry).getTime() - new Date(b.expiry).getTime();
+      return 0;
+    });
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-purple-50 to-blue-100">
-      {/* Sidebar Navigation */}
-      <div className="w-64 bg-gradient-to-b from-blue-700 to-purple-800 text-white flex flex-col p-6">
-        <h1 className="text-2xl font-bold mb-8">💊 PharmaTally</h1>
-        <nav className="flex flex-col gap-3 flex-1">
-          <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-2 rounded-lg transition">
-            <Package size={18} /> Dashboard
-          </button>
-          <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-2 rounded-lg transition">
-            <Plus size={18} /> Add Medicine
-          </button>
-          <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-2 rounded-lg transition">
-            <BarChart3 size={18} /> Reports
-          </button>
-          <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-2 rounded-lg transition">
-            <Settings size={18} /> Settings
-          </button>
-        </nav>
-        {/* Logout Button */}
-        <button
-          onClick={handleLogout}
-          className="mt-6 flex items-center gap-2 bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg font-semibold transition"
-        >
-          <LogOut size={18} /> Logout
-        </button>
+    <div
+      className={`min-h-screen p-8 transition-colors duration-700 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-sky-50 text-gray-900"
+      }`}
+    >
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <h1 className="text-3xl font-extrabold tracking-tight">
+          Pharmacy Inventory
+        </h1>
+        <div className="flex items-center gap-4">
+          <Switch checked={darkMode} onCheckedChange={setDarkMode} />
+          <Button
+            onClick={() => navigate("/")}
+            className="bg-red-500 hover:bg-red-600 text-white font-medium"
+          >
+            Log Out
+          </Button>
+        </div>
       </div>
 
-      {/* Main Dashboard */}
-      <div className="flex-1 p-8">
-        {/* Top Heading */}
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">Dashboard</h2>
-          <div className="flex items-center bg-white rounded-lg px-3 shadow">
-            <Search size={18} className="text-gray-500 mr-2" />
-            <input
-              type="text"
-              placeholder="Search medicines..."
-              className="outline-none py-2"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-3 gap-6 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-6 rounded-xl shadow text-white bg-gradient-to-r from-green-400 to-teal-500"
+      {/* Entry Card */}
+      <Card className="mb-8 shadow-2xl rounded-2xl border-none overflow-hidden backdrop-blur-lg bg-white/30 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-700">
+        <CardHeader className="py-6 text-center">
+          <CardTitle className="text-xl font-bold">
+            {editingId ? "Edit Medicine" : "Add Medicine"}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+          <Input
+            ref={nameRef}
+            placeholder="Medicine Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => handleKeyPress(e, "name")}
+            className="h-12"
+          />
+          <Input
+            ref={expiryRef}
+            type="date"
+            value={expiry}
+            onChange={(e) => setExpiry(e.target.value)}
+            onKeyDown={(e) => handleKeyPress(e, "expiry")}
+            className="h-12"
+          />
+          <Input
+            ref={priceRef}
+            placeholder="Price"
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(Number(e.target.value))}
+            onKeyDown={(e) => handleKeyPress(e, "price")}
+            className="h-12"
+          />
+          <Button
+            onClick={handleAddMedicine}
+            className="h-12 bg-green-500 hover:bg-green-600 text-white"
           >
-            <h3 className="text-lg font-semibold">Total Medicines</h3>
-            <p className="text-3xl font-bold">{medicines.length}</p>
-          </motion.div>
+            {editingId ? "Update" : "Add"}
+          </Button>
+        </CardContent>
+      </Card>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-6 rounded-xl shadow text-white bg-gradient-to-r from-red-400 to-pink-500"
-          >
-            <h3 className="text-lg font-semibold">Expiring Soon</h3>
-            <p className="text-3xl font-bold">{expiringSoon}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-6 rounded-xl shadow text-white bg-gradient-to-r from-blue-400 to-indigo-500"
-          >
-            <h3 className="text-lg font-semibold">Inventory Value</h3>
-            <p className="text-3xl font-bold">₹{totalValue}</p>
-          </motion.div>
-        </div>
-
-        {/* Add Medicine Form */}
-        <motion.form
-          onSubmit={addMedicine}
-          className="bg-white shadow rounded-xl p-6 mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+      {/* Filter & Sort */}
+      <div className="flex flex-col md:flex-row gap-4 mb-4">
+        <Input
+          placeholder="Search medicine..."
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="h-12 flex-1"
+        />
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value as any)}
+          className="h-12 px-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
         >
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            Add New Medicine
-          </h3>
-          <div className="grid grid-cols-3 gap-4">
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="Medicine Name"
-              className="border rounded-lg px-3 py-2"
-            />
-            <input
-              type="date"
-              name="expiry"
-              value={form.expiry}
-              onChange={handleChange}
-              className="border rounded-lg px-3 py-2"
-            />
-            <input
-              type="number"
-              name="price"
-              value={form.price}
-              onChange={handleChange}
-              placeholder="Price"
-              className="border rounded-lg px-3 py-2"
-            />
-          </div>
-          <button
-            type="submit"
-            className="mt-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg hover:opacity-90"
-          >
-            Add Medicine
-          </button>
-        </motion.form>
+          <option value="A-Z">Sort A → Z</option>
+          <option value="Price">Sort by Price</option>
+          <option value="Expiry">Sort by Expiry</option>
+        </select>
+      </div>
 
-        {/* Medicines List */}
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">
-          Available Medicines
-        </h3>
-        <AnimatePresence>
-          <div className="grid gap-4">
-            {medicines
-              .filter((med) =>
-                med.name.toLowerCase().includes(search.toLowerCase())
-              )
-              .map((med) => (
-                <motion.div
+      {/* Medicine Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse text-left">
+          <thead>
+            <tr className="border-b border-gray-300 dark:border-gray-700">
+              <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">Price</th>
+              <th className="px-4 py-2">Expiry</th>
+              <th className="px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <AnimatePresence>
+              {displayedMedicines.map((med) => (
+                <motion.tr
                   key={med.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="bg-white rounded-xl shadow p-4 flex justify-between items-center hover:shadow-lg transition"
+                  exit={{ opacity: 0, x: -50 }}
+                  className={`border-b border-gray-200 dark:border-gray-700 ${
+                    isExpiringSoon(med.expiry)
+                      ? "bg-red-100 dark:bg-red-800/50 animate-pulse"
+                      : darkMode
+                      ? "bg-gray-900/60"
+                      : "bg-white"
+                  }`}
                 >
-                  <div>
-                    <p className="text-lg font-semibold text-gray-800">
-                      {med.name}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Expiry: {med.expiry}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Price:{" "}
-                      <span className="font-bold text-green-600">
-                        ₹{med.price}
-                      </span>
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => deleteMedicine(med.id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <Trash2 size={20} />
-                  </button>
-                </motion.div>
+                  <td className="px-4 py-2">{med.name}</td>
+                  <td className="px-4 py-2">{med.price.toFixed(2)}</td>
+                  <td className="px-4 py-2">{med.expiry}</td>
+                  <td className="px-4 py-2 flex gap-2">
+                    <Button
+                      onClick={() => handleEdit(med)}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-white h-8 w-12 p-0"
+                    >
+                      <Edit className="w-4 h-4 mx-auto" />
+                    </Button>
+                    <Button
+                      onClick={() => handleDelete(med.id)}
+                      className="bg-red-500 hover:bg-red-600 text-white h-8 w-12 p-0"
+                    >
+                      <Trash2 className="w-4 h-4 mx-auto" />
+                    </Button>
+                  </td>
+                </motion.tr>
               ))}
-          </div>
-        </AnimatePresence>
+            </AnimatePresence>
+          </tbody>
+        </table>
       </div>
     </div>
   );
-}
+};
+
 export default PharmacyPage;

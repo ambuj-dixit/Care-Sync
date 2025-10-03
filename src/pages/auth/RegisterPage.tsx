@@ -7,8 +7,9 @@ type Role = "user" | "doctor" | "pharmacy";
 
 const Register = () => {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
-  const [open, setOpen] = useState(true); // dialog opens automatically
+  const [open, setOpen] = useState(true); 
   const navigate = useNavigate();
+
 
   const handleContinue = () => {
     if (!selectedRole) return;
@@ -48,7 +49,15 @@ const Register = () => {
           </Button>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="flex justify-between">
+          {/* 👇 New Exit Button */}
+          <Button
+            variant="outline"
+            onClick={() => navigate("/")}
+          >
+            Exit
+          </Button>
+
           <Button onClick={handleContinue} disabled={!selectedRole}>
             Continue
           </Button>
